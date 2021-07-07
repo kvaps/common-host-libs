@@ -218,7 +218,7 @@ func cleanupDeviceAndSlaves(dev *model.Device) (err error) {
 	log.Tracef(">>>>> cleanupDeviceAndSlaves called for %+v", dev)
 	defer log.Trace("<<<<< cleanupDeviceAndSlaves")
 
-	isFC := isFibreChannelDevice(dev.Slaves)
+	//isFC := isFibreChannelDevice(dev.Slaves)
 
 	// disable queuing on multipath
 	err = multipathDisableQueuing(dev)
@@ -232,14 +232,16 @@ func cleanupDeviceAndSlaves(dev *model.Device) (err error) {
 		// proceed with the rest of the path cleanup nevertheless, as mpath might get deleted asynchronously
 	}
 
-	var isGst = true
-	log.Debugf("targetScope for device %s is \"%s\"", dev.AltFullPathName, dev.TargetScope)
-	if dev.TargetScope == "" || strings.EqualFold(dev.TargetScope, VolumeScope.String()) {
-		isGst = false
-	}
+	//var isGst = true
+	//log.Debugf("targetScope for device %s is \"%s\"", dev.AltFullPathName, dev.TargetScope)
+	//if dev.TargetScope == "" || strings.EqualFold(dev.TargetScope, VolumeScope.String()) {
+	//	isGst = false
+	//}
 
 	//delete all physical paths of the device
-	if (!isFC && dev.IscsiTargets != nil )&& (!isGst || dev.StorageVendor == "3PARdata") {
+	//TODO: debug
+	//if (!isFC && dev.IscsiTargets != nil) && (!isGst || dev.StorageVendor == "3PARdata") {
+	if false {
 		log.Debugf("volume scoped target %+v, initiating iscsi logout and delete", dev.IscsiTargets)
 		err = logoutAndDeleteIscsiTarget(dev)
 		if err != nil {
